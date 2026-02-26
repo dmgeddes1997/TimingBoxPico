@@ -1,0 +1,64 @@
+; Use a single state machine to control when and how long a pin goes high
+; Because of a design mistake the 4 output pins are not consecutive and so my formerly elegant solution
+; of pulling in a single 32 bit word containing the 8bit pinmask and 24bit duration become a bit more cludgy
+; Instead I pull one word containing the duration, and a second word containing the pin mask.
+; To reduce the latency between triggers appearing in the fifos and the actual issuing of triggers only the instruction
+; within the loopForTriggerDuration label actually run at a 2.56us tick rate. The effective 384X clock divider required 
+; is comprised of a 12X global clock divider (80ns tick rate) that is slowed by a further factor of 32 (2.56us tick rate)
+; by adding a 31 tick delay to a 1 tick jmp instruction = 32 ticks.
+; The wait loop takes 320ns to catch a trigger as a worst case. There's then 240ns before the pins go high. Giving the total off set as 
+; 570ns or approx 0.2 ticks
+
+.program pinDriver
+.mov_status txfifo < 2                  ; "STATUS" Flag goes from 1 to 0 when the tx FIFO has 2 entries
+.wrap_target
+waitForTrigger:
+    mov y, status                       ; "STATUS" Flag is moved to y register.            
+    jmp !y issueTrigger                 ; If y is zero then theres a pinmask and duration waiting - start issuing a trigger
+    jmp waitForTrigger                  ; Otherwise jump back to waitForTrigger and continue waiting for a trigger
+
+; Theres always going to be 2 words in the tx FIFO by the time we get here so non-blocking pulls are fine
+issueTrigger:
+    pull                                ; Pull in word containing the trigger duration
+    mov x, osr                          ; Move from OSR into X scratch register where we can perform operations
+    pull                                ; Pull in word containing the pin mask
+    out pins, 32                        ; Push pin mask to the outputs
+loopForTriggerDuration:
+    jmp x-- loopForTriggerDuration [31] ; Decrement counter by one (1 cycle), and delay for an extra 31 cycles (2.56us)
+; We don't acutally need a jump to get into resetPins. Once x is 0 prior to a decrement we escape loopForTriggerDuration
+; and go to the next instruction (set pins, 0)
+resetPins:
+    set pins, 0
+    jmp waitForTrigger
+
+
+;; write the sdk
+% c-sdk{
+static inline void pinDriver_program_init(PIO pioBlock, uint stateMachine, uint stateMachineOffset, uint firstPin, uint lastPin, uint32_t clkDivisorFP)
+    {
+        // helper function for the pinDriver.pio program
+        // configure the state machine using a bog standard configuration
+        pio_sm_config config = pinDriver_program_get_default_config(stateMachineOffset);
+
+        // map the outputs to the "PINS" destination of the "SET" and "OUT" commands
+        uint numPins = lastPin - firstPin + 1; 
+        sm_config_set_set_pins(&config, firstPin, numPins);
+        sm_config_set_out_pins(&config, firstPin, numPins);
+
+        // set clock divider
+        // clock divider is 16:8 Fixed Point integer
+        uint16_t clkDivisorINT = (clkDivisorFP >> 8) & 0xFFFF;
+        uint8_t clkDivisorFRAC = clkDivisorFP & 0xFF;
+        sm_config_set_clkdiv_int_frac8(&config, clkDivisorINT, clkDivisorFRAC);
+
+        // intialise the gpio pins
+        for (int pin = firstPin; pin < (lastPin+1); pin++)
+        {
+            pio_gpio_init(pioBlock, pin);
+        }
+
+        // init the state machine but dont enable it. We do that in sync with the clock pio program
+        pio_sm_set_consecutive_pindirs(pioBlock, stateMachine, firstPin, numPins, true);
+        pio_sm_init(pioBlock, stateMachine, stateMachineOffset, &config);
+    }    
+%}
