@@ -14,9 +14,7 @@ Flashing the firmware is achieved using the micro-usb port on the Pico. Anyone w
   
 Here is an example of the over moulding removed revealing the metallic shield  
 
-<img width="841" height="541" alt="C232HD UART Cable connection and Mechanical Details" src="https://github.com/user-attachments/assets/9bbd10cc-aead-4127-8821-f461bd499d90" />
-
-
+<img width="480" height="640" alt="IMG_4499 Medium" src="https://github.com/user-attachments/assets/f53b49e0-d118-48ae-99b9-9e6de9b936aa" />
 
 A pair of side-cutter and needle-nose pliers lets you peel off the metallic shell to reveal the inner conductors of the cable  
   
@@ -24,7 +22,7 @@ When flashing firmware be very gentle when unplugging and re-plugging the usb ca
   
 With the USB cable in place, the new FTDI cable can be fitted. First feed the headers through the threaded cap, and then the toothed part of the strain relief gland - don’t tighten the threaded cap yet. Like when removing the old FTDI cable this is best done one header at a time - all ten will not fit at once. Feed the headers through the threaded nut and tighten this. Leave the threaded cap for now - this is what locks the cable in place. Plugging in the headers is best done with the GND (black) pin first then the RXD (yellow), TXD (orange), and VCC (red) pins. The other pins aren’t connected to anything so are only plugged in for tidiness sake. The labels on the PCB match the FTDI diagram - RXD maps to RXD and TXD maps to TXD etc.  
 Setting the strain relief is achieved by feeding through enough of the black cable such that the thinner gauge coloured wires aren’t pulling, or causing strain, on the header. Once you’re happy with this NOW you can tighten the thread cap -this is what actually locks the cable in place! 
-
+<img width="841" height="541" alt="C232HD UART Cable connection and Mechanical Details" src="https://github.com/user-attachments/assets/9bbd10cc-aead-4127-8821-f461bd499d90" />
 
 Now just flash the firmware (see separate doc) and re-attached the lid using the 4 Phillips / pozi-drive screws.   
   
