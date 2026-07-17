@@ -1,0 +1,73 @@
+Bill Of Materials
+"Report Written:","10:32 Tuesday, April 29, 2025"
+"Project Path:","C:\European Circuits\Glasgow University\PCB 27_03_2025\Pico Pi PCB\Pico Pi PCB.prj"
+"Design Path:","C:\European Circuits\Glasgow University\PCB 27_03_2025\Pico Pi PCB\Pico Pi PCB.pcb"
+"Design Title:",""
+"Created:","28/03/2025 15:24:22"
+"Last Saved:","29/04/2025 10:32:20"
+"Editing Time:","601 min"
+"Units:","thou (precision 3)"
+"Author:",""
+
+"Unless Specified Otherwise, All Resistors are 1% and all Capacitors 20% "
+"Unless Specified Otherwise, All Voltages are 20V minimum"
+
+
+"ICs"
+
+,"Names","Value","Part Number","Footprint","Quantity","Order Code","Notes"
+,"U1, U2",,"74ACT08SC","SOIC14",2,"F 101-4147","Must be the ACT Version (not AC)"
+,"U3",,"RASPBERRY PI PICO2","RASPBERRYPIPICO2",1,"F 453-1086","Include  Pin Headers and Sockets (2 X 20 WAY)"
+,,,,,3,,
+
+"Leds"
+
+,"Names","Value","Part Number","Footprint","Quantity","Order Code","Notes"
+,"LED1",," Dialight 521-8559F","5mm",1,"F 351-4768","Mounted bent over by 90 degrees to edge of pcb"
+,,,,,1,,
+
+"Capacitors"
+
+,"Names","Value","Part Number","Footprint","Quantity","Order Code","Notes"
+,"C1, C2, C3, C4","100nF",,"DSC",4,,"0.2 INCH PITCH"
+,"C5","10uF 16v",,"CAPP3V",1,,"P = 3.81mm"
+,,,,,5,,
+
+"Diodes"
+
+,"Names","Value","Part Number","Footprint","Quantity","Order Code","Notes"
+,"D1",,"1N5817","DIOAD1405W86L465D235",1,"F 980-1197",
+,,,,,1,,
+
+"Switches/Buttons"
+
+,"Names","Value","Part Number","Footprint","Quantity","Order Code","Notes"
+,"SW1, SW2",,"OS102011MS2QS1","OS102011MS2QS1",2,"F 243-5105",
+,,,,,2,,
+
+"Connectors"
+
+,"Names","Value","Part Number","Footprint","Quantity","Order Code","Notes"
+,"CONN1, CONN3","10 PIN 0.1"" PITCH VERT PIN CONNECTOR",,"DSC",2,,
+,"CONN2","0.1"" PITCH VERT PIN HEADER",,"MISC",1,,
+,,,,,3,,
+
+"Resistors"
+
+,"Names","Value","Part Number","Footprint","Quantity","Order Code","Notes"
+,"R1, R2, R3, R5","10k",,"DSC",4,,"0.4 INCH PITCH"
+,"R4, R6","50R",,"DSC",2,,"0.4 INCH PITCH"
+,"R7, R8","180R",,"DSC",2,,"0.4 INCH PITCH"
+,"R9","270R",,"DSC",1,,"0.4 INCH PITCH"
+,,,,,9,,
+
+"Transistors"
+
+,"Names","Value","Part Number","Footprint","Quantity","Order Code","Notes"
+,"Q1, Q2",,"VN0808","TO92",2,"F 285-1590",
+,,,,,2,,
+
+"Grand Totals"
+
+,,,,,"Quantity",,
+,,,,,26,,
